@@ -13,7 +13,7 @@
 <meta property="og:site_name" content="Jandou&#39;s Blog">
 <meta property="og:description" content="这一篇文章，主要是说webpack的热加载,本文会介绍两种方法模块热替换(Hot Module Replacement 或 HMR)是 webpack 提供的最有用的功能之一。它允许在运行时更新各种模块，而无需进行完全刷新。 webpackdoc.webpack-china.org/guides/hot-module-replacement">
 <meta property="og:locale" content="cn">
-<meta property="og:updated_time" content="2017-07-26T14:43:49.000Z">
+<meta property="og:updated_time" content="2017-07-26T14:49:34.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="工程化打包工具——webpack（二）">
 <meta name="twitter:description" content="这一篇文章，主要是说webpack的热加载,本文会介绍两种方法模块热替换(Hot Module Replacement 或 HMR)是 webpack 提供的最有用的功能之一。它允许在运行时更新各种模块，而无需进行完全刷新。 webpackdoc.webpack-china.org/guides/hot-module-replacement">
@@ -100,7 +100,7 @@
 <a id="more"></a>
 <h2 id="方法一：-webpack-dev-server"><a href="#方法一：-webpack-dev-server" class="headerlink" title="方法一： webpack-dev-server"></a>方法一： webpack-dev-server</h2><p>使用<code>webpack-dev-server</code>十分简单，只要配置配置三个地方<br>先安装<code>npm install webpack-dev-server --save-dev</code></p>
 <figure class="highlight js"><figcaption><span>webpack.config.js</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> webpack = <span class="built_in">require</span>(<span class="string">'webpack'</span>);</div><div class="line"></div><div class="line">...</div><div class="line">  plugins: [</div><div class="line">    <span class="keyword">new</span> webpack.HotModuleReplacementPlugin() <span class="comment">// 启用 HMR</span></div><div class="line">  ],</div><div class="line">  <span class="attr">devServer</span>: []</div><div class="line">...</div></pre></td></tr></table></figure>
-<figure class="highlight js"><figcaption><span>package.json</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="string">"dev"</span>: <span class="string">"webpack-dev-server --hot "</span></div></pre></td></tr></table></figure>
+<figure class="highlight js"><figcaption><span>package.json</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="string">"dev"</span>: <span class="string">"webpack-dev-server --hot --inline --config webpack.config.js"</span></div></pre></td></tr></table></figure>
 <h2 id="方法二："><a href="#方法二：" class="headerlink" title="方法二："></a>方法二：</h2><p>。。。明天再更新</p>
 
       
