@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>应用容器引擎——docker(一) | Jandou&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Docker 是一个开源的应用容器引擎，让开发者可以打包他们的应用以及依赖包到一个可移植的容器中，然后发布到任何流行的 Linux 机器上，也可以实现虚拟化。容器是完全使用沙箱机制，相互之间不会有任何接口。">
+<meta name="keywords" content="Docker">
+<meta property="og:type" content="article">
+<meta property="og:title" content="应用容器引擎——docker(一)">
+<meta property="og:url" content="http://yoursite.com/2017/07/30/应用容器引擎——docker-一/index.html">
+<meta property="og:site_name" content="Jandou&#39;s Blog">
+<meta property="og:description" content="Docker 是一个开源的应用容器引擎，让开发者可以打包他们的应用以及依赖包到一个可移植的容器中，然后发布到任何流行的 Linux 机器上，也可以实现虚拟化。容器是完全使用沙箱机制，相互之间不会有任何接口。">
+<meta property="og:locale" content="cn">
+<meta property="og:updated_time" content="2017-07-30T08:59:47.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="应用容器引擎——docker(一)">
+<meta name="twitter:description" content="Docker 是一个开源的应用容器引擎，让开发者可以打包他们的应用以及依赖包到一个可移植的容器中，然后发布到任何流行的 Linux 机器上，也可以实现虚拟化。容器是完全使用沙箱机制，相互之间不会有任何接口。">
+  
+    <link rel="alternate" href="/atom.xml" title="Jandou&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Jandou&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">张俊文的博客</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-应用容器引擎——docker-一" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/07/30/应用容器引擎——docker-一/" class="article-date">
+  <time datetime="2017-07-30T07:57:24.000Z" itemprop="datePublished">2017-07-30</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/工程化/">工程化</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      应用容器引擎——docker(一)
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote><p>Docker 是一个开源的应用容器引擎，让开发者可以打包他们的应用以及依赖包到一个可移植的容器中，然后发布到任何流行的 Linux 机器上，也可以实现虚拟化。容器是完全使用沙箱机制，相互之间不会有任何接口。</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="为什么我会用Docker？"><a href="#为什么我会用Docker？" class="headerlink" title="为什么我会用Docker？"></a>为什么我会用Docker？</h2><p>有一段时间，为了尝试更多的先进的技术工具，所以经常部署各种环境，这个过程无疑是痛苦的。还有，入职新的公司，更重开发环境的搭建，这无疑也是十分耗费时间的，因为这种环境，一般来说，搭建一次之后，以后就很少去再次搭建。</p>
+<p>还有，我相信很多程序员都会经历过，自己本地开发环境能完美运行的程序，放到服务器上面，就完全跑不动，各种的调整，发现，服务器的开发环境的版本跟自己本地的开发版本不一致导致的，这样无疑也是耗费时间的。</p>
+<p>后来，我发现了Dokcer,它的出现，解决了我所有上述的问题。</p>
+<h2 id="什么是Docker"><a href="#什么是Docker" class="headerlink" title="什么是Docker?"></a>什么是Docker?</h2><p>按照《第一本Docker书》里面说的，Docker是一个能够把开发应用程序自定部署的开源引擎。<br>在我的理解里面，docker是一个微小的虚拟机，之所以微小，是因为，docker调用了本机自身的操作心痛。而不像其他普通的虚拟机一样，把整个系统构建出来。正因为共用同一个本地操作系统，所以，在一台机器中可以运行成千上万的Docker容器。所以，相对来说，docker自身十分轻巧，使用起来十分方便，启动一个容器，不到1秒的时间。</p>
+<h2 id="安装Docker"><a href="#安装Docker" class="headerlink" title="安装Docker"></a>安装Docker</h2><p>请到官网下载：<a href="https://www.docker.com/" title="docker" target="_blank" rel="external">docker官网</a></p>
+<h2 id="docker的运行"><a href="#docker的运行" class="headerlink" title="docker的运行"></a>docker的运行</h2><p>检查docker是否已经安装完成，在命令窗口里面进输入命令，查看docker的版本号<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker -v</div></pre></td></tr></table></figure></p>
+<h3 id="运行第一个容器"><a href="#运行第一个容器" class="headerlink" title="运行第一个容器"></a>运行第一个容器</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker run -i -t ubuntu /bin/bash</div></pre></td></tr></table></figure>
+<p>运行上述命令，docker’会去你的本地，查看，是否存在ubuntu:last这个镜像文件，如果找不到的话，docker会从远程下载一个ubuntu最新的镜像文件到你的本地，然后，<code>-i</code>可以持续输入, <code>-t</code>为终端，目的是，进入这个ubuntu的系统里面的交互终端。成功进入docker之后，你会看到<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[root@9396f0158965 /]<span class="comment">#</span></div></pre></td></tr></table></figure></p>
+<p>这个时候,你的可以想象成，已经进入了ubuntu的虚拟机，你可以在这个容器里面使用各种命令，这些命令都是作用在该容器上面,查看一下系统的版本，你会看到，你现在的系统是ubuntu.<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cat /proc/version</div></pre></td></tr></table></figure></p>
+<p>你是默认用root身份，进入这个ubuntu的终端，root后面那穿是数字是，容器的ID号。如果你使用exit命令的话，将会推出终端，并且，停止该docker的运行。如果，一开始<code>docker run</code> 后面跟着<code>-i -t -d</code>,这个<code>-d</code>的话，使用exit,只会推出终端，不会停止容器的运行，这时候这个容器已经被守护了，只用通过<code>docker stop &lt;container_id&gt;</code>才能把该容器停止。</p>
+<p>你可以使用：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">docker ps <span class="comment">#查看正在运行得docker容器</span></div><div class="line">dokcer ps -a <span class="comment">#查了所有容器，包括停止运行得容器。</span></div></pre></td></tr></table></figure>
+<p>在使用<code>docker ps -a</code> 里面， 你将会看到，类似如下的信息：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">➜  ~ docker ps -a</div><div class="line">CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS                          PORTS               NAMES</div><div class="line">9396f0158965        def038dac252        <span class="string">"/bin/bash"</span>              13 minutes ago      Exited (0) About a minute ago                       nostalgic_montalcini</div><div class="line">2bf8b6a44dbc        def038dac252        <span class="string">"/bin/sh -c 'start..."</span>   9 days ago          Exited (137) 8 days ago                             mysql_in_php</div><div class="line">11afa73b8599        greyltc/lamp        <span class="string">"/bin/sh -c 'start..."</span>   9 days ago          Exited (137) 9 days ago                             agitated_nobel</div><div class="line">c9679fef6430        greyltc/lamp        <span class="string">"/bin/sh -c 'start..."</span>   9 days ago          Created                                             relaxed_shirley</div></pre></td></tr></table></figure>
+<p>如果你想重新打开一个已经停止的容器的话，你可以使用命令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#docker start &lt;container_id&gt;</span></div><div class="line"></div><div class="line">docker start 9396f0158965</div></pre></td></tr></table></figure></p>
+<p><code>docker start</code>会沿用<code>docker run</code>的启动命令： <code>/bin/bash</code> 打开bash.<br>然后你可以使用<code>docker ps</code> 查看，</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">➜  ~ docker ps</div><div class="line">CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS                                 NAMES</div><div class="line">9396f0158965        def038dac252        <span class="string">"/bin/bash"</span>         17 minutes ago      Up 5 seconds        80/tcp, 443/tcp, 3306/tcp, 5432/tcp   nostalgic_montalcini</div></pre></td></tr></table></figure>
+<p>此时，你会看到运行中的容器，是你刚才打开的容器，注意CONTAINER ID，就是你刚才使用的CONTAINER ID。</p>
+<p>现在，如果你想进入这个容器的话，你可以使用一下的两种方法：</p>
+<h4 id="方法一：docker-attach-OPTIONS-CONTAINER"><a href="#方法一：docker-attach-OPTIONS-CONTAINER" class="headerlink" title="方法一：docker attach [OPTIONS] CONTAINER"></a>方法一：<code>docker attach [OPTIONS] CONTAINER</code></h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker attach 9396f0158965</div></pre></td></tr></table></figure>
+<p>使用attach方法，是附着到容器上面，就是直接进入，就像你第一次使用<code>docker run</code>一样进入这个容器，所以如果你直接使用exit的话，容器还是会停止的。</p>
+<h4 id="方法二：docker-exec-OPTIONS-CONTAINER-COMMAND-ARG"><a href="#方法二：docker-exec-OPTIONS-CONTAINER-COMMAND-ARG" class="headerlink" title="方法二：docker exec [OPTIONS] CONTAINER COMMAND [ARG...]"></a>方法二：<code>docker exec [OPTIONS] CONTAINER COMMAND [ARG...]</code></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">dokcer exec -i -t 9396f0158965 /bin/bash</div></pre></td></tr></table></figure>
+<p>使用exec的方法进入容器，是在容器里面，创建一个新的进程来进入，所以，这个进程可以的退出，不会影响之前start出来的容器，也就说说，你运行exit后，只会，退出该线程而已，你可以退出后，使用<code>docker ps</code>查看，你的容器还在运行。</p>
+<h2 id="删除容器"><a href="#删除容器" class="headerlink" title="删除容器"></a>删除容器</h2><p>删除容器，注意，删除容器的话，首先要把容器体质，使用<code>docker stop</code>，</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">docker rm 9396f0158965 <span class="comment">#删除单一容器</span></div><div class="line">dokcer rm `docker ps -a -q` <span class="comment">#删除所有已经停止的容器</span></div></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这篇文章主要是简单概括一下，docker的基本使用，下载镜像，创建容器，重新打开容器，停止容器，删除容器。等基本的操作。<br>下一篇文章，会说如何构建docker镜像。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/07/30/应用容器引擎——docker-一/" data-id="cj5qfrb4w000hplx6d5sn6u0j" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Docker/">Docker</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2017/07/25/工程化打包工具——webpack（二）/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">工程化打包工具——webpack（二）</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/">前端</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/工程化/">工程化</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HEXO/">HEXO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/electron/">electron</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/tags/HEXO/" style="font-size: 10px;">HEXO</a> <a href="/tags/electron/" style="font-size: 10px;">electron</a> <a href="/tags/webpack/" style="font-size: 20px;">webpack</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/07/30/应用容器引擎——docker-一/">应用容器引擎——docker(一)</a>
+          </li>
+        
+          <li>
+            <a href="/2017/07/25/工程化打包工具——webpack（二）/">工程化打包工具——webpack（二）</a>
+          </li>
+        
+          <li>
+            <a href="/2017/07/24/webpack/">工程化打包工具——webpack（一）</a>
+          </li>
+        
+          <li>
+            <a href="/2017/07/23/electron/">构建跨平台桌面应用——electron</a>
+          </li>
+        
+          <li>
+            <a href="/2017/07/23/test-1/">这是博客的第一篇文章——HEXO</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 Jandou<br>
+      &copy; 邮箱： 809781809@qq.com<br/>
+      &copy: github: <a href="https://github.com/jandou6">https://github.com/jandou6</a>
+
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
