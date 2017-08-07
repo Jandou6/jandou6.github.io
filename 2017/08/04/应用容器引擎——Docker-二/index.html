@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>应用容器引擎——Docker(二) | Jandou&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="本章主要介绍如何去创建Docker的镜像，主要讲述，如果使用Dockerfile创建的方式。">
+<meta name="keywords" content="Docker">
+<meta property="og:type" content="article">
+<meta property="og:title" content="应用容器引擎——Docker(二)">
+<meta property="og:url" content="http://yoursite.com/2017/08/04/应用容器引擎——Docker-二/index.html">
+<meta property="og:site_name" content="Jandou&#39;s Blog">
+<meta property="og:description" content="本章主要介绍如何去创建Docker的镜像，主要讲述，如果使用Dockerfile创建的方式。">
+<meta property="og:locale" content="cn">
+<meta property="og:updated_time" content="2017-08-07T14:21:36.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="应用容器引擎——Docker(二)">
+<meta name="twitter:description" content="本章主要介绍如何去创建Docker的镜像，主要讲述，如果使用Dockerfile创建的方式。">
+  
+    <link rel="alternate" href="/atom.xml" title="Jandou&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Jandou&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">张俊文的博客</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-应用容器引擎——Docker-二" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/08/04/应用容器引擎——Docker-二/" class="article-date">
+  <time datetime="2017-08-04T02:18:44.000Z" itemprop="datePublished">2017-08-04</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/工程化/">工程化</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      应用容器引擎——Docker(二)
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote><p>本章主要介绍如何去创建Docker的镜像，主要讲述，如果使用Dockerfile创建的方式。</p>
+</blockquote>
+<a id="more"></a>
+<p>docker在启动容器的时候，使用了写时复制（copy on wirte），这也是使Docker如此强大的技术之一。每个镜像层都是只读的，并且永远不会变化。当创建一个新的容器的时候，会创建出一个镜像栈，并且栈的最顶端添加一个读写层。该读写层加上镜像，以及一些配置，就形成一个容器。</p>
+<hr>
+<h1 id="获取镜像"><a href="#获取镜像" class="headerlink" title="获取镜像"></a>获取镜像</h1><h4 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker pull ubuntu</div></pre></td></tr></table></figure>
+<p>拉取之后，你可以查看自己的镜像列表</p>
+<h4 id="列出镜像"><a href="#列出镜像" class="headerlink" title="列出镜像"></a>列出镜像</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker images</div></pre></td></tr></table></figure>
+<h4 id="查找镜像"><a href="#查找镜像" class="headerlink" title="查找镜像"></a>查找镜像</h4><p>查找本地镜像<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span>docker images &lt;images_name&gt;</div><div class="line"></div><div class="line">docker images ubuntu</div></pre></td></tr></table></figure></p>
+<p>查找远程镜像的话，是在Docker Hub（类似github的一个仓库，这个仓库用来托管各种镜像）<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span>docker search &lt;image_name&gt;</div><div class="line"></div><div class="line">docker search ubuntu</div></pre></td></tr></table></figure></p>
+<hr>
+<h1 id="构建镜像"><a href="#构建镜像" class="headerlink" title="构建镜像"></a>构建镜像</h1><p>构建对象主要有两中方式，</p>
+<h4 id="第一种是使用-docker-commit"><a href="#第一种是使用-docker-commit" class="headerlink" title="第一种是使用: docker commit,"></a>第一种是使用: <code>docker commit</code>,</h4><h4 id="第二种是使用-docker-build配合Dockerfile"><a href="#第二种是使用-docker-build配合Dockerfile" class="headerlink" title="第二种是使用: docker build配合Dockerfile"></a>第二种是使用: <code>docker build</code>配合Dockerfile</h4><h3 id="docker-commit"><a href="#docker-commit" class="headerlink" title="docker commit"></a>docker commit</h3><p>我们要先创建一个容器，然后对这个容器进行修改，然后使用commit,以这个容器为基准，创建出一个新的镜像<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span> docker commit &lt;container&gt; &lt;new_images_name&gt;</div><div class="line"></div><div class="line">docker commit ubuntu_contain new/ubuntu</div></pre></td></tr></table></figure></p>
+<p>创建好的镜像，可以使用<code>docker images</code>查看，你会看到，多了一个名字为<code>new/ubuntu</code>的镜像</p>
+<h3 id="Dockerfile进行构建"><a href="#Dockerfile进行构建" class="headerlink" title="Dockerfile进行构建"></a>Dockerfile进行构建</h3><p>一般来说，并不推荐使用<code>docker commit</code>进行构建镜像。而推荐使用Dockerfile进行构建，因为相对commit命令来说，Dockerfile具有可复用性，透明性已经幂等性。</p>
+<h4 id="用一个例子来介绍如果使用dockerfile"><a href="#用一个例子来介绍如果使用dockerfile" class="headerlink" title="用一个例子来介绍如果使用dockerfile:"></a>用一个例子来介绍如果使用dockerfile:</h4><p>1.创建一个示例创库：<br>创建一个test_docker文件夹，并且打开该文件夹，在文件夹里面，创建一个名为Dockerfiles的文件<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mkdir test_docker &amp;&amp; cd test_docker</div><div class="line">touch Dockerfile</div></pre></td></tr></table></figure></p>
+<p>2.编辑Dockerfile<br>打开Dockerfile并且对它进行编辑，输入一下内容</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># DockerFile demo</span></div><div class="line"><span class="keyword">FROM</span> ubuntu:<span class="number">15.10</span></div><div class="line"><span class="keyword">MAINTAINER</span> Jandou <span class="string">"80918180@qq.com"</span></div><div class="line"><span class="keyword">RUN</span> apt-get update &amp;&amp; apt-get install -y nginx</div><div class="line"><span class="keyword">RUN</span> echo "Hi, I'am a DockerFile demo" /usr/share/nginx/html/index.html</div><div class="line"><span class="keyword">EXPOSE</span> <span class="number">80</span></div></pre></td></tr></table></figure>
+<h5 id="解析一下上述代码的意思"><a href="#解析一下上述代码的意思" class="headerlink" title="解析一下上述代码的意思"></a>解析一下上述代码的意思</h5><p>第一行, <code>#</code>注释作用， 对Dockerfile 进行说明，说明这是一个demo示例文件<br>第二行, <code>FROM</code>,告诉docker,要构建的镜像，是基于ubuntu:15.10的镜像。<br>第三行， <code>MAINTAINER</code>, 说明作用，主要是作者的信息<br>第四行，第五行， <code>RUN</code>, 在这个镜像里面运行命令，第四行的命令是：更新apt-get，并且使用apt-get安装nginx。第五行，的意思是在，指定的文件里面输入一串字符串。<br>第六行， <code>EXPORT</code>, 暴露端口。</p>
+<p>编辑完Dockerfile， 之后，输入命令进行构建</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span> docker build -t="&lt;dokcer_image_name:tag&gt;" &lt;path&gt;</div><div class="line"></div><div class="line">docker build -t="docker_demo_image:v0.1" .</div></pre></td></tr></table></figure>
+<p>ps: 不要忘记最后一个<code>.</code>!!!!!</p>
+<h2 id="·····"><a href="#·····" class="headerlink" title="·····"></a>·····</h2><h2 id="Dockerfile-命令总结"><a href="#Dockerfile-命令总结" class="headerlink" title="Dockerfile 命令总结"></a>Dockerfile 命令总结</h2><h4 id="CMD"><a href="#CMD" class="headerlink" title="CMD"></a>CMD</h4><p>指定一个容器启动时候要运行的命令  </p>
+<p>如下用法<br><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">...</div><div class="line"></div><div class="line"><span class="keyword">CMD</span> ['/bin/bash']</div><div class="line"></div><div class="line">...</div></pre></td></tr></table></figure></p>
+<p>但是要注意的是，在<code>docker run</code>的时候，如果指定了要运行的命令的话，会覆盖掉dockerfile里面的CMD,如果，<code>docker run</code> 里面没有指定运行的命令的话，那么Dockerfile里面的CMD就相当于一个默认的启动命令。</p>
+<h4 id="ENTRYPOINT"><a href="#ENTRYPOINT" class="headerlink" title="ENTRYPOINT"></a>ENTRYPOINT</h4><p>让<code>docker run</code>最后面带的命名成为ENTRYPOINT的参数。<br>如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">...</div><div class="line"></div><div class="line">ENTRTPOINT [&quot;yarn&quot;]</div><div class="line"></div><div class="line">...</div></pre></td></tr></table></figure></p>
+<p>这样的话，当运行docker run的时候，如<code>docker run -itd &lt;docker_image_id&gt; start</code>,这里的<code>start</code> 会和ENTERPOIN组合成<code>yarn start</code>这一句命令，然后运行。</p>
+<h4 id="WORKDIR"><a href="#WORKDIR" class="headerlink" title="WORKDIR"></a>WORKDIR</h4><p>设置工作目录<br>可以在dockerfile里面指定工作目录，然后，<code>docker run</code>的时候的命令会运行在该目录下，注意的是，工作目录可以使用<code>docker run -w &lt;path&gt;</code>来进行指定。</p>
+<h4 id="ENV"><a href="#ENV" class="headerlink" title="ENV"></a>ENV</h4><p>设置环境变量<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ENV TEST=&apos;test&apos; PATH=/path/to/foo</div></pre></td></tr></table></figure></p>
+<h4 id="USER"><a href="#USER" class="headerlink" title="USER"></a>USER</h4><p>指定运行的时候是使用什么身份去运行，默认为root<br><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">USER</span> root</div></pre></td></tr></table></figure></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker run -u root</div></pre></td></tr></table></figure>
+<h4 id="ADD"><a href="#ADD" class="headerlink" title="ADD"></a>ADD</h4><p>将本地文件复制到docker里面<br>如果文件是一个压缩包的话，使用ADD，会自动解压。同时ADD还支持，提取远程文件<br><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">ADD</span> last.tar.gz /var/www/test/</div><div class="line"><span class="keyword">ADD</span> https://wwww.xxxx.com/test.gz /var/www/test/</div></pre></td></tr></table></figure></p>
+<h4 id="COPY"><a href="#COPY" class="headerlink" title="COPY"></a>COPY</h4><p>COPY 与 ADD 很像似，只不过COPY只是进行复制，而不进行提取以及解压的工作</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">ADD</span> cond.d /etc/apache2</div></pre></td></tr></table></figure>
+<h4 id="LABEL"><a href="#LABEL" class="headerlink" title="LABEL"></a>LABEL</h4><p>LABEL用于为Docker进行元数据。主要是标签作用。<br><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">LABEL</span> version="1.0.0"</div><div class="line"><span class="keyword">LABEL</span> version="1.0.0" data="2017年08月07日"</div></pre></td></tr></table></figure></p>
+<p>然后使用<code>docker inspect &lt;images_id&gt;</code> 可以看到元组信息。</p>
+<h4 id="STOPSIGNAL"><a href="#STOPSIGNAL" class="headerlink" title="STOPSIGNAL"></a>STOPSIGNAL</h4><p>STOPSIGNAL用来设置停止容器时发送什么系统调用信号给容器。这个信号必须是系统内核调用表中合法的数。</p>
+<h4 id="ARG"><a href="#ARG" class="headerlink" title="ARG"></a>ARG</h4><p>ARG可以在<code>docker build --build-arg test=123</code>的时候,制定参数。<br><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">ARG</span> test</div><div class="line"><span class="comment"># 默认参数赋值</span></div><div class="line"><span class="keyword">ARG</span> test_arg=<span class="number">123</span></div></pre></td></tr></table></figure></p>
+<h4 id="ONBUILD"><a href="#ONBUILD" class="headerlink" title="ONBUILD"></a>ONBUILD</h4><p>为镜像添加触发器。当镜像被调用的时候执行。注意的是，该指令可以在父容器执行，可以在子容器里面执行，但是不能再孙容器里面执行，也就是说，只能有一次继承的机会。<br><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">ONBUILD</span> <span class="keyword">ADD</span> . /app/src</div></pre></td></tr></table></figure></p>
+<h4 id="dockerfile-编辑完之后，就可以使用docker-file创建镜像。"><a href="#dockerfile-编辑完之后，就可以使用docker-file创建镜像。" class="headerlink" title="dockerfile 编辑完之后，就可以使用docker file创建镜像。"></a>dockerfile 编辑完之后，就可以使用<code>docker file</code>创建镜像。</h4><h2 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h2><p>本章节，主要描述了如何构建镜像，并介绍了Dockerfile的使用方式。详情请到<a href="https://docs.docker.com/" target="_blank" rel="external">官网：https://docs.docker.com/</a>查询</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/08/04/应用容器引擎——Docker-二/" data-id="cj627j8ll0005ajx6c66tdzg4" class="article-share-link">Partager</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Docker/">Docker</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2017/07/30/应用容器引擎——docker-一/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Ancien</strong>
+      <div class="article-nav-title">应用容器引擎——docker(一)</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Catégories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/">前端</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/工程化/">工程化</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Mot-clés</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HEXO/">HEXO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/electron/">electron</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Nuage de mot-clés</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Docker/" style="font-size: 20px;">Docker</a> <a href="/tags/HEXO/" style="font-size: 10px;">HEXO</a> <a href="/tags/electron/" style="font-size: 10px;">electron</a> <a href="/tags/webpack/" style="font-size: 20px;">webpack</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Articles récents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/08/04/应用容器引擎——Docker-二/">应用容器引擎——Docker(二)</a>
+          </li>
+        
+          <li>
+            <a href="/2017/07/30/应用容器引擎——docker-一/">应用容器引擎——docker(一)</a>
+          </li>
+        
+          <li>
+            <a href="/2017/07/25/工程化打包工具——webpack（二）/">工程化打包工具——webpack（二）</a>
+          </li>
+        
+          <li>
+            <a href="/2017/07/24/webpack/">工程化打包工具——webpack（一）</a>
+          </li>
+        
+          <li>
+            <a href="/2017/07/23/electron/">构建跨平台桌面应用——electron</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 Jandou<br>
+      &copy; 邮箱： 809781809@qq.com<br/>
+      &copy: github: <a href="https://github.com/jandou6">https://github.com/jandou6</a>
+
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
